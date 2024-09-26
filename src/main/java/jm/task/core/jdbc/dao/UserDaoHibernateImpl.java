@@ -30,9 +30,6 @@ public class UserDaoHibernateImpl implements UserDao {
             transaction.commit();
         } catch (HibernateException e) {
             e.printStackTrace();
-            if (transaction != null) {
-                transaction.rollback();
-            }
         }
     }
 
@@ -45,9 +42,6 @@ public class UserDaoHibernateImpl implements UserDao {
             transaction.commit();
         } catch (HibernateException e) {
             e.printStackTrace();
-            if (transaction != null) {
-                transaction.rollback();
-            }
         }
     }
 
@@ -60,7 +54,6 @@ public class UserDaoHibernateImpl implements UserDao {
                     setParameter(1, name).
                     setParameter(2, lastName).
                     setParameter(3, age).executeUpdate();
-            // session.save(new User(name, lastName, age));
             transaction.commit();
             System.out.println("User с именем – " + name + " добавлен в базу данных");
         } catch (HibernateException e) {
@@ -78,7 +71,6 @@ public class UserDaoHibernateImpl implements UserDao {
             transaction = session.beginTransaction();
             session.createNativeQuery(DELETE_USER).
                     setParameter(1, id).executeUpdate();
-            // session.delete(session.get(User.class, id));
             transaction.commit();
         } catch (HibernateException e) {
             e.printStackTrace();
@@ -112,13 +104,9 @@ public class UserDaoHibernateImpl implements UserDao {
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
             session.createNativeQuery(CLEAN_TABLE).executeUpdate();
-            // session.createNativeQuery("TRUNCATE TABLE user;").executeUpdate();
             transaction.commit();
         } catch (HibernateException e) {
             e.printStackTrace();
-            if (transaction != null) {
-                transaction.rollback();
-            }
         }
     }
 }
